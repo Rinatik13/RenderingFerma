@@ -19,6 +19,8 @@ public class Main {
 
         threadMain.start();
         threadStatus.start();
+        threadMain.stop();
+        threadStatus.stop();
 
 
     }
