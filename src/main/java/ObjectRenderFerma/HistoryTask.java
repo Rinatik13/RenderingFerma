@@ -20,4 +20,23 @@ public class HistoryTask {
     String data;
     @Column(name = "eventTask")
     String eventTask;
+
+    public HistoryTask() {
+    }
+
+    public HistoryTask(int task_id, String data, String eventTask) {
+        this.task_id = task_id;
+        this.data = data;
+        this.eventTask = eventTask;
+    }
+
+    @Override
+    public String toString() {
+        return "HistoryTask{" +
+                "historyTask_id=" + historyTask_id +
+                ", task_id=" + task_id +
+                ", data='" + data + '\'' +
+                ", eventTask='" + eventTask + '\'' +
+                '}';
+    }
 }

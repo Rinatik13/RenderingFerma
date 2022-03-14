@@ -1,47 +1,40 @@
-import org.hibernate.HibernateException;
-import org.hibernate.Metamodel;
-import org.hibernate.query.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-import javax.persistence.metamodel.EntityType;
+import orm.interfaces.GetUserInfo;
+import orm.logic.AddNewUserMySql;
+import orm.logic.GetUserInfoMySql;
+import orm.usermenu.Menu;
 
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    private static final SessionFactory ourSessionFactory;
+    public static void main(String[] args) throws IOException {
+        Menu menu = new Menu();
 
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
 
-            ourSessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
+        // реализуем основные команды которые вводит пользователь
+
+        // Добавление стартовых команд
+        System.out.println("Введите \"name\" для входа под вашим именем \n"+
+                "или введите \" newuser \" для добавление нового пользователя");
+
+        // Добавление нового пользователя
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String textCommand = reader.readLine();
+        if (textCommand.equals("name")){
+            System.out.println("Введите имя пользователя для входа: ");
+            BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
+            String text = reader1.readLine();
+            GetUserInfo userInfo = new GetUserInfoMySql(text);
+            userInfo.toString();
         }
-    }
-
-    public static Session getSession() throws HibernateException {
-        return ourSessionFactory.openSession();
-    }
-
-    public static void main(final String[] args) throws Exception {
-        final Session session = getSession();
-        try {
-            System.out.println("querying all the managed entities...");
-            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
-            for (EntityType<?> entityType : metamodel.getEntities()) {
-                final String entityName = entityType.getName();
-                final Query query = session.createQuery("from " + entityName);
-                System.out.println("executing: " + query.getQueryString());
-                for (Object o : query.list()) {
-                    System.out.println("  " + o);
-                }
-            }
-        } finally {
-            session.close();
+        else if (textCommand.equals("newuser")){
+            System.out.println("Введите имя подьзователя для регистрации");
+            BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
+            String text = reader1.readLine();
+            AddNewUserMySql newUser = new AddNewUserMySql();
+            newUser.addNew(text);
         }
     }
 }

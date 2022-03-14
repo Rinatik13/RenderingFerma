@@ -3,7 +3,7 @@ package ObjectRenderFerma;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.ArrayList;
+import java.util.List;
 
 // Основной класс "пользователь"
 // хранит информацию имя, id и список задач данного пользователя
@@ -14,7 +14,7 @@ public class User {
     String user_name;
     @Id
     int user_id;
-    ArrayList<UserTask> userTasks;
+    List <UserTask> userTasks;
 
     public User() {
     }
@@ -23,4 +23,12 @@ public class User {
         this.user_name = user_name;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_name='" + user_name + '\'' +
+                ", user_id=" + user_id +
+                ", userTasks=" + userTasks +
+                '}';
+    }
 }

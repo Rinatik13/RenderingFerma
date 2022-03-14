@@ -1,4 +1,4 @@
-package orm;
+package orm.interfaces;
 
 import ObjectRenderFerma.User;
 

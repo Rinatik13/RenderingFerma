@@ -1,9 +1,10 @@
-package orm;
+package orm.logic;
 
 import ObjectRenderFerma.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import orm.interfaces.AddNewUser;
 
 // в данном классе реализуем функционал hibernate
 // используем интерфейс AddNewUser и наследуем его метод
@@ -11,11 +12,11 @@ import org.hibernate.cfg.Configuration;
 // пользователя в БД
 // используем конструктор класса User для присвоения имени пользователю
 
-public class AddNewUserMySql implements AddNewUser{
+public class AddNewUserMySql implements AddNewUser {
     @Override
     public void addNew(String user_name) {
         SessionFactory sessionFactory = new Configuration()
-                .configure("hibernate.config.xml")
+                .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(User.class)
                 .buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
