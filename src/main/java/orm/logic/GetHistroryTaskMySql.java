@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import orm.interfaces.GetHistoryTask;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetHistroryTaskMySql implements GetHistoryTask {
@@ -19,10 +21,16 @@ public class GetHistroryTaskMySql implements GetHistoryTask {
         Session session  = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<HistoryTask> historyTaskList = session.createQuery
-                ("from HistoryTask"+ "where task_id="+task_id)
+                ("from HistoryTask")
                 .getResultList();
         session.getTransaction().commit();
+        List<HistoryTask> historyTasks = new ArrayList<>();
+        for (HistoryTask historyTask : historyTaskList){
+            if (historyTask.getTask_id()==task_id){
+                historyTasks.add(historyTask);
+            }
+        }
 
-        return historyTaskList;
+        return historyTasks;
     }
 }

@@ -1,6 +1,7 @@
 package ObjectRenderFerma;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.List;
@@ -13,16 +14,17 @@ import java.util.List;
 
 // нужно реализовать метод по добавлению информации в историю задачи
 // при создании задачи должна ставится отметка о создании
-
+@Entity
 @Table(name = "usertasks")
 public class UserTask {
     @Column(name = "user_id")
     int user_id;
     @Id
+    @Column (name = "task_id")
     int task_id;
     @Column(name = "status")
     String status;
-    List <HistoryTask> historyTasks;
+//    List <HistoryTask> historyTasks;
 
     public int getUser_id() {
         return user_id;
@@ -48,13 +50,13 @@ public class UserTask {
         this.status = status;
     }
 
-    public List<HistoryTask> getHistoryTasks() {
-        return historyTasks;
-    }
-
-    public void setHistoryTasks(List<HistoryTask> historyTasks) {
-        this.historyTasks = historyTasks;
-    }
+//    public List<HistoryTask> getHistoryTasks() {
+//        return historyTasks;
+//    }
+//
+//    public void setHistoryTasks(List<HistoryTask> historyTasks) {
+//        this.historyTasks = historyTasks;
+//    }
 
     public UserTask() {
     }

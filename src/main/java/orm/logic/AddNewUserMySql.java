@@ -20,8 +20,10 @@ public class AddNewUserMySql implements AddNewUser {
                 .addAnnotatedClass(User.class)
                 .buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
-        User user = new User(user_name);
+        User user = new User();
+        user.setUser_name(user_name);
         session.beginTransaction();
+        // по какойто причине ругалось на строку ниже
         session.save(user);
         session.getTransaction()
                 .commit();

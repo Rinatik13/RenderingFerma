@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import orm.interfaces.AddNewTask;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 // В данном классе реализуем функционал hibernate
@@ -24,14 +23,28 @@ public class AddNewTaskMySql implements AddNewTask {
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(UserTask.class)
                 .buildSessionFactory();
+        System.out.println("Создание задачи");
         Session session = sessionFactory.getCurrentSession();
         UserTask userTask = new UserTask(user_id);
         Date date = new Date();
+        System.out.println(date.toString());
         session.beginTransaction();
         session.save(userTask);
-        HistoryTask historyTask = new HistoryTask(userTask.getTask_id(),date.toString(),"RENDERING");
-        session.save(historyTask);
+        int id = session.createQuery("from UserTask").getResultList().size();
+        HistoryTask historyTask = new HistoryTask(id, date.toString(),"RENDERING",user_id);
+        System.out.println(userTask.toString());
         session.getTransaction()
+                .commit();
+        System.out.println("Создания истории задачи");
+
+        SessionFactory sessionFactory1 = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(HistoryTask.class)
+                .buildSessionFactory();
+        Session session1 = sessionFactory1.getCurrentSession();
+        session1.beginTransaction();
+        session1.save(historyTask);
+        session1.getTransaction()
                 .commit();
     }
 }

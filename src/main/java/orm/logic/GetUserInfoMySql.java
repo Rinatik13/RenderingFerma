@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GetUserInfoMySql implements GetUserInfo {
 
-    public GetUserInfoMySql(String username) {
+    public GetUserInfoMySql() {
     }
 
     @Override
@@ -23,12 +23,21 @@ public class GetUserInfoMySql implements GetUserInfo {
                 .addAnnotatedClass(User.class)
                 .buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
-
+        session.beginTransaction();
+        System.out.println(" Начало обработки");
         // необходимо протестировать метод выбоки конкретных пользователей по нику
-        List<User> userArrayList =
-                session.createQuery("from User"+"where user_name=" + user_name)
-                        .getResultList();
-        User user = userArrayList.get(0);
-        return user;
+        List<User> userList = session.createQuery("from User").getResultList();
+        session.getTransaction().commit();
+        User myUser = new User();
+        for (User user:userList){
+            if (user.getUser_name().equals(user_name)){
+                myUser = user;
+            }
+        }
+        sessionFactory.close();
+        System.out.println("Полученние данных о пользователе!");
+        System.out.println(myUser.toString());
+        return myUser;
+
     }
 }
